@@ -54,10 +54,15 @@ describe('SpreadsheetFunc', () => {
       let LineObj = new LinePMBookData(contents);
       let SheetObj = new SpreadsheetFunc();
       SheetObj.deleteLastData(LineObj);
-      const result = [
-        ['2018-12-15T00:00:00+09:00', 'u123456789', '服代', '7800'],
-        ['2019-01-10T00:00:00+09:00', 'u123456789', 'お茶', '150']
-      ];
+
+      var date = new Date();
+      date.setMonth(date.getMonth() - 1);
+      let result = [[this.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
+
+      date = new Date();
+      date.setDate(10);
+      result.push([this.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', 'お茶', '150']);
+
       expect(SheetObj.sheet.getDataRange().getValues()).toEqual(result);
       expect(LineObj.price).toBe(480);
       expect(LineObj.shop).toBe('昼食代');
@@ -70,12 +75,21 @@ describe('SpreadsheetFunc', () => {
       let LineObj = new LinePMBookData(contents);
       let SheetObj = new SpreadsheetFunc();
       SheetObj.addData(LineObj);
-      const result = [
-        ['2018-12-15T00:00:00+09:00', 'u123456789', '服代', '7800'],
-        ['2019-01-10T00:00:00+09:00', 'u123456789', 'お茶', '150'],
-        ['2019-01-12T00:00:00+09:00', 'u123456789', '昼食代', '480'],
-        [Moment.moment().format(), 'u123456789', 'スタバ', '800']
-      ];
+
+      var date = new Date();
+      date.setMonth(date.getMonth() - 1);
+      let result = [[this.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
+
+      date = new Date();
+      date.setDate(10);
+      result.push([this.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', 'お茶', '150']);
+
+      date = new Date();
+      date.setDate(12);
+      result.push([this.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', 'お茶', '150']);
+
+      result.push([Moment.moment().format(), 'u123456789', 'スタバ', '800']);
+
       expect(SheetObj.sheet.getDataRange().getValues()).toEqual(result);
     });
   });

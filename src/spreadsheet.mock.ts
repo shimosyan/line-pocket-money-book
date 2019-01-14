@@ -3,9 +3,9 @@ import { Define } from './define';
 export class SpreadSheet {
   public sheet1;
   constructor() {
-    var date = new Date();
+    let date = new Date();
     date.setMonth(date.getMonth() - 1);
-    var data = [[this.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
+    let data = [[this.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
 
     date = new Date();
     date.setDate(10);
