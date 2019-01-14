@@ -57,11 +57,11 @@ describe('SpreadsheetFunc', () => {
 
       var date = new Date();
       date.setMonth(date.getMonth() - 1);
-      let result = [[this.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
+      let result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
 
       date = new Date();
       date.setDate(10);
-      result.push([this.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', 'お茶', '150']);
+      result.push([Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', 'お茶', '150']);
 
       expect(SheetObj.sheet.getDataRange().getValues()).toEqual(result);
       expect(LineObj.price).toBe(480);
@@ -78,15 +78,15 @@ describe('SpreadsheetFunc', () => {
 
       var date = new Date();
       date.setMonth(date.getMonth() - 1);
-      let result = [[this.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
+      let result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
 
       date = new Date();
       date.setDate(10);
-      result.push([this.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', 'お茶', '150']);
+      result.push([Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', 'お茶', '150']);
 
       date = new Date();
       date.setDate(12);
-      result.push([this.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', 'お茶', '150']);
+      result.push([Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '昼食代', '480']);
 
       result.push([Moment.moment().format(), 'u123456789', 'スタバ', '800']);
 
@@ -94,3 +94,15 @@ describe('SpreadsheetFunc', () => {
     });
   });
 });
+
+class Func {
+  static dateFormat = (date: Date): string => {
+    return (
+      date.getFullYear() +
+      '-' +
+      ('0' + (date.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + date.getDate()).slice(-2)
+    );
+  };
+}
