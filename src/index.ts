@@ -12,7 +12,6 @@ const LINE_TOKEN: string = process.env.LINE_TOKEN;
 
 global.doPost = (e: any): ContentService => {
   let LineObj = new LinePMBookData(JSON.parse(e.postData.contents));
-  let SheetObj = new SpreadsheetFunc();
 
   if (typeof LineObj.reply_token === 'undefined') {
     return LinePMBook.responseData();
@@ -25,6 +24,8 @@ global.doPost = (e: any): ContentService => {
   if (!LineObj.filterMessage()) {
     return LinePMBook.responseData();
   }
+
+  let SheetObj = new SpreadsheetFunc();
 
   let response: string = '';
 

@@ -23,7 +23,7 @@ export class SpreadsheetFunc {
 
     data.forEach(line => {
       console.log(line);
-      let data_date = Moment.moment(new Date(String(line[0])).toISOString());
+      let data_date = Moment.moment(line[0]);
       if (line[1] == LineData.uid && date.format('YYYY-MM') == data_date.format('YYYY-MM')) {
         score += Number(line[3]);
       }
