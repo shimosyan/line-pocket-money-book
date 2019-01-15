@@ -67,6 +67,10 @@ export class LinePMBookData {
 }
 
 export class LinePMBook {
+  static responseData = (): ContentService => {
+    return ContentService.createTextOutput('ok');
+  };
+
   static formatMoney = (
     n: number | string,
     c: number = 0,

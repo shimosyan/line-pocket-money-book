@@ -15,26 +15,18 @@ global.doPost = (e: any): ContentService => {
   let LineObj = new LinePMBookData(JSON.parse(e.postData.contents));
   try {
     if (typeof LineObj.reply_token === 'undefined') {
-      return ContentService.createTextOutput(JSON.stringify({ content: 'post ok' })).setMimeType(
-        ContentService.MimeType.JSON
-      );
+      return LinePMBook.responseData();
     }
 
     if (LineObj.type != 'message') {
-      return ContentService.createTextOutput(JSON.stringify({ content: 'post ok' })).setMimeType(
-        ContentService.MimeType.JSON
-      );
+      return LinePMBook.responseData();
     }
 
     if (!LineObj.filterMessage()) {
-      return ContentService.createTextOutput(JSON.stringify({ content: 'post ok' })).setMimeType(
-        ContentService.MimeType.JSON
-      );
+      return LinePMBook.responseData();
     }
   } catch (error) {
-    return ContentService.createTextOutput(JSON.stringify({ content: 'post ok' })).setMimeType(
-      ContentService.MimeType.JSON
-    );
+    return LinePMBook.responseData();
   }
 
   let SheetObj = new SpreadsheetFunc();
@@ -81,7 +73,5 @@ global.doPost = (e: any): ContentService => {
   };
   UrlFetchApp.fetch(Define.line_endpoint, option);
 
-  return ContentService.createTextOutput(JSON.stringify({ content: 'post ok' })).setMimeType(
-    ContentService.MimeType.JSON
-  );
+  return LinePMBook.responseData();
 };
