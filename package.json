@@ -70,5 +70,11 @@
       "json",
       "node"
     ]
+  },
+  "dependencies": {
+    "atob": "^2.1.0",
+    "cryptiles": "^4.1.2",
+    "merge": "^1.2.1",
+    "randomatic": "^3.0.0"
   }
 }
