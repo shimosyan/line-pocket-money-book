@@ -13,19 +13,15 @@ const LINE_TOKEN: string = process.env.LINE_TOKEN;
 global.doPost = (e: any): ContentService => {
   console.log(JSON.parse(e.postData.contents));
   let LineObj = new LinePMBookData(JSON.parse(e.postData.contents));
-  try {
-    if (typeof LineObj.reply_token === 'undefined') {
-      return LinePMBook.responseData();
-    }
+  if (typeof LineObj.reply_token === 'undefined') {
+    return LinePMBook.responseData();
+  }
 
-    if (LineObj.type != 'message') {
-      return LinePMBook.responseData();
-    }
+  if (LineObj.type != 'message') {
+    return LinePMBook.responseData();
+  }
 
-    if (!LineObj.filterMessage()) {
-      return LinePMBook.responseData();
-    }
-  } catch (error) {
+  if (!LineObj.filterMessage()) {
     return LinePMBook.responseData();
   }
 
@@ -41,7 +37,7 @@ global.doPost = (e: any): ContentService => {
   } else if (LineObj.message.match(/^(先月|せんげつ|sengetsu)/i)) {
     response =
       'あなたは先月' +
-      LinePMBook.formatMoney(SheetObj.getAggregatePrice(LineObj), -1) +
+      LinePMBook.formatMoney(SheetObj.getAggregatePrice(LineObj), 1) +
       '円使いました。';
   } else if (LineObj.message.match(/^(取り消し|とりけし|取消|torikesi|torikeshi)/i)) {
     LineObj = SheetObj.deleteLastData(LineObj);

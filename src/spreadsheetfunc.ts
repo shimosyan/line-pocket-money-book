@@ -14,9 +14,15 @@ export class SpreadsheetFunc {
     this.sheet = this.ss.getSheetByName(Define.spreadsheet_name);
   }
 
+  /**
+   * スプレッドシートから金額を集計する
+   * @param {LinePMBookData} LineData Lineから入力されたメッセージデータ
+   * @param {number} month            現在から数えて何ヶ月前で金額を集計するか指定する(デフォルトは0 = 現在)
+   * @return {number}                 金額
+   */
   public getAggregatePrice = (LineData: LinePMBookData, month: number = 0): number => {
     let date = Moment.moment();
-    date.add(month, 'months');
+    date.add(month * -1, 'months');
 
     let data: Object[][] = this.sheet.getDataRange().getValues();
     let score: number = 0;
@@ -32,6 +38,11 @@ export class SpreadsheetFunc {
     return score;
   };
 
+  /**
+   * スプレッドシートにデータを追加する
+   * @param {LinePMBookData} LineData Lineから入力されたメッセージデータ
+   * @return {LinePMBookData}
+   */
   public addData = (LineData: LinePMBookData): LinePMBookData => {
     LineData.message.split(/\r?\n/).forEach(line => {
       if (!LineData.price && line.match(/^\\?([\d,]+)/)) {
@@ -52,6 +63,11 @@ export class SpreadsheetFunc {
     return LineData;
   };
 
+  /**
+   * スプレッドシートから入力されたユーザーの直近のデータを削除する。
+   * @param {LinePMBookData} LineData Lineから入力されたメッセージデータ
+   * @return {LinePMBookData}
+   */
   public deleteLastData = (LineData: LinePMBookData): LinePMBookData => {
     let data: Object[][] = this.sheet
       .getDataRange()

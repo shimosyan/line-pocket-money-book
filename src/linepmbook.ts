@@ -41,6 +41,10 @@ export class LinePMBookData {
     this.uid = this.json.events[0].source.userId;
   }
 
+  /**
+   * messageを正規表現で検査して既定の文字列であればtrueを返す
+   * @return {boolean} 正規表現に当てはまればtrue
+   */
   public filterMessage = (): boolean => {
     // 一行目が金額で始まっている
     if (this.message.match(/^\\?[\d,]+円?\s/)) {
@@ -67,10 +71,24 @@ export class LinePMBookData {
 }
 
 export class LinePMBook {
+  /**
+   * GoogleAppScriptのWebアプリケーション用の出力を生成する
+   * @return {ContentService}
+   */
   static responseData = (): ContentService => {
-    return ContentService.createTextOutput('ok');
+    return ContentService.createTextOutput(JSON.stringify({ content: 'post ok' })).setMimeType(
+      ContentService.MimeType.JSON
+    );
   };
 
+  /**
+   * 数値を3桁のカンマ区切りに整形する。
+   * @param {number | string} n 整形対象の数値
+   * @param {number} c          小数桁の指定(デフォルト0 = 小数点以下を出力しない)
+   * @param {string} d          小数点の文字を指定(デフォルト.)
+   * @param {string} t          桁区切りの文字を指定(デフォルト,)
+   * @return {string}           整形された文字列
+   */
   static formatMoney = (
     n: number | string,
     c: number = 0,
