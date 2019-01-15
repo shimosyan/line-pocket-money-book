@@ -11,17 +11,21 @@ declare let process: any;
 const LINE_TOKEN: string = process.env.LINE_TOKEN;
 
 global.doPost = (e: any): ContentService => {
+  console.log(JSON.parse(e.postData.contents));
   let LineObj = new LinePMBookData(JSON.parse(e.postData.contents));
+  try {
+    if (typeof LineObj.reply_token === 'undefined') {
+      return LinePMBook.responseData();
+    }
 
-  if (typeof LineObj.reply_token === 'undefined') {
-    return LinePMBook.responseData();
-  }
+    if (LineObj.type != 'message') {
+      return LinePMBook.responseData();
+    }
 
-  if (LineObj.type != 'message') {
-    return LinePMBook.responseData();
-  }
-
-  if (!LineObj.filterMessage()) {
+    if (!LineObj.filterMessage()) {
+      return LinePMBook.responseData();
+    }
+  } catch (error) {
     return LinePMBook.responseData();
   }
 

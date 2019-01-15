@@ -22,7 +22,7 @@ LINE Developersに登録し、BOTを作成します。トークンはロング�
 ### 3. 必要なものをインストールする
 
 ```shell
-npm i @google/clasp -g
+npm i @google/clasp@1.6.0 -g
 npm install
 ```
 
