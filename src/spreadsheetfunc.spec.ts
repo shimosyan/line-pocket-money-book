@@ -44,7 +44,7 @@ describe('SpreadsheetFunc', () => {
       let LineObj = new LinePMBookData(contents);
       let SheetObj = new SpreadsheetFunc();
       const result = 7800;
-      expect(SheetObj.getAggregatePrice(LineObj, -1)).toBe(result);
+      expect(SheetObj.getAggregatePrice(LineObj, 1)).toBe(result);
     });
   });
 
