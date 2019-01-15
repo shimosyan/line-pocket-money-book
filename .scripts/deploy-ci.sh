@@ -3,7 +3,7 @@ echo $CLASPRC_JSON > ~/.clasprc.json
 echo $CLASP_JSON > .clasp.json
 echo $DEPLOY_JSON > .deploy.json
 
-npx @google/clasp@1.6.0
+npx @google/clasp@1.6.0 push
 
 # ライブラリ化やWebAppデプロイであればGASのデプロイ操作を実行する
 if [ -e ./.deploy.json ]; then
