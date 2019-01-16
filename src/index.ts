@@ -37,7 +37,7 @@ global.doPost = (e: any): ContentService => {
   } else if (LineObj.message.match(/^(先月|せんげつ|sengetsu)/i)) {
     response =
       'あなたは先月' +
-      LinePMBook.formatMoney(SheetObj.getAggregatePrice(LineObj), 1) +
+      LinePMBook.formatMoney(SheetObj.getAggregatePrice(LineObj, 1)) +
       '円使いました。';
   } else if (LineObj.message.match(/^(取り消し|とりけし|取消|torikesi|torikeshi)/i)) {
     LineObj = SheetObj.deleteLastData(LineObj);
