@@ -1,5 +1,7 @@
 # LINE - Pocket Money Book
 
+[![CircleCI](https://circleci.com/gh/shimosyan/line-pocket-money-book/tree/master.svg?style=svg)](https://circleci.com/gh/shimosyan/line-pocket-money-book/tree/master)
+
 LINEで使えるお小遣い帳です。
 
 ## 使い方
