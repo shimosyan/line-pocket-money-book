@@ -8,7 +8,7 @@ Logger['log'] = jest.fn(object => console.log(object));
 declare let Moment;
 Moment['moment'] = jest.fn(args => require('moment')(args));
 
-LinePMBook['getUSDRate'] = jest.fn().mockReturnValue(111);
+LinePMBook['getUSDRate'] = jest.fn().mockReturnValue(111.3);
 
 let contents = {
   destination: 'a12345678b123456789',
@@ -159,7 +159,7 @@ describe('SpreadsheetFunc', () => {
       date.setDate(12);
       result.push([Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '昼食代', '480']);
 
-      result.push([Moment.moment().format(), 'u123456789', '水', '333']);
+      result.push([Moment.moment().format(), 'u123456789', '水', '334']);
 
       expect(SheetObj.sheet.getDataRange().getValues()).toEqual(result);
     });

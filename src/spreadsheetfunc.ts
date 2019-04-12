@@ -56,7 +56,7 @@ export class SpreadsheetFunc {
             return (LineData.error = '為替レートの取得に失敗しました。');
           }
           // ドルを日本円に直したものを返す
-          return (LineData.price = Number(line.replace(/\D/g, '')) * rate);
+          return (LineData.price = Math.round(Number(line.replace(/\D/g, '')) * rate));
         }
 
         return (LineData.price = Number(line.replace(/\D/g, '')));
