@@ -139,7 +139,7 @@ export class LinePMBook {
    */
   static getUSDRate = (): number => {
     let response: URLFetchResponse = UrlFetchApp.fetch(Define.USD_rate_api);
-    let data: RateObj = JSON.parse(String(response.getContentText));
+    let data: RateObj = JSON.parse(response.getContentText());
     let usdjpy = data.quotes.filter(line => {
       return line.currencyPairCode === 'USDJPY';
     });
