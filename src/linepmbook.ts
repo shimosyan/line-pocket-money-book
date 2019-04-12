@@ -46,6 +46,10 @@ export class LinePMBookData {
    * @return {boolean} 正規表現に当てはまればtrue
    */
   public filterMessage = (): boolean => {
+    // 1行目、2行目がともに数字の場合はfalse
+    if (this.message.match(/^[\d,]+\r?\n\\?[\d,]+[\r\n]*$/)) {
+      return false;
+    }
     // 一行目が金額で始まっている
     if (this.message.match(/^\\?[\d,]+円?\s/)) {
       return true;
