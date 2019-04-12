@@ -48,7 +48,7 @@ export class SpreadsheetFunc {
       if (!LineData.price && line.match(/^\\?([\d,]+)/)) {
         return (LineData.price = line.replace(/\D/g, ''));
       }
-      if (!LineData.shop && line.match(/^[^\d]/)) {
+      if (!LineData.shop && !line.match(/^\d+円?$/)) {
         return (LineData.shop = line);
       }
     });
