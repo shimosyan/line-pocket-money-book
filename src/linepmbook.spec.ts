@@ -77,6 +77,18 @@ describe('LinePMBookData', () => {
       let LineObj = new LinePMBookData(contents);
       expect(LineObj.filterMessage()).toBe(false);
     });
+
+    it('Success - case9', () => {
+      contents.events[0].message.text = '8000\n12/25プレゼント';
+      let LineObj = new LinePMBookData(contents);
+      expect(LineObj.filterMessage()).toBe(true);
+    });
+
+    it('Success - case10', () => {
+      contents.events[0].message.text = '12/25プレゼント\n8000';
+      let LineObj = new LinePMBookData(contents);
+      expect(LineObj.filterMessage()).toBe(true);
+    });
   });
 });
 

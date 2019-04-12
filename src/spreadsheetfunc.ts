@@ -45,10 +45,13 @@ export class SpreadsheetFunc {
    */
   public addData = (LineData: LinePMBookData): LinePMBookData => {
     LineData.message.split(/\r?\n/).forEach(line => {
-      if (!LineData.price && line.match(/^\\?([\d,]+)/)) {
+      if (line === '') {
+        return;
+      }
+      if (!LineData.price && line.match(/^\\?\d+円?$/)) {
         return (LineData.price = line.replace(/\D/g, ''));
       }
-      if (!LineData.shop && !line.match(/^\d+円?$/)) {
+      if (!LineData.shop && !line.match(/^\\?\d+円?$/)) {
         return (LineData.shop = line);
       }
     });

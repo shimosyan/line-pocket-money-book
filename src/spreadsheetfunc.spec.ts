@@ -70,7 +70,7 @@ describe('SpreadsheetFunc', () => {
   });
 
   describe('addData()', () => {
-    it('Success', () => {
+    it('Success - 1', () => {
       contents.events[0].message.text = '800\nスタバ';
       let LineObj = new LinePMBookData(contents);
       let SheetObj = new SpreadsheetFunc();
@@ -89,6 +89,52 @@ describe('SpreadsheetFunc', () => {
       result.push([Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '昼食代', '480']);
 
       result.push([Moment.moment().format(), 'u123456789', 'スタバ', '800']);
+
+      expect(SheetObj.sheet.getDataRange().getValues()).toEqual(result);
+    });
+
+    it('Success - 2', () => {
+      contents.events[0].message.text = '8000\n12/25プレゼント';
+      let LineObj = new LinePMBookData(contents);
+      let SheetObj = new SpreadsheetFunc();
+      SheetObj.addData(LineObj);
+
+      var date = new Date();
+      date.setMonth(date.getMonth() - 1);
+      let result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
+
+      date = new Date();
+      date.setDate(10);
+      result.push([Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', 'お茶', '150']);
+
+      date = new Date();
+      date.setDate(12);
+      result.push([Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '昼食代', '480']);
+
+      result.push([Moment.moment().format(), 'u123456789', '12/25プレゼント', '8000']);
+
+      expect(SheetObj.sheet.getDataRange().getValues()).toEqual(result);
+    });
+
+    it('Success - 3', () => {
+      contents.events[0].message.text = '12/25プレゼント\n8000';
+      let LineObj = new LinePMBookData(contents);
+      let SheetObj = new SpreadsheetFunc();
+      SheetObj.addData(LineObj);
+
+      var date = new Date();
+      date.setMonth(date.getMonth() - 1);
+      let result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
+
+      date = new Date();
+      date.setDate(10);
+      result.push([Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', 'お茶', '150']);
+
+      date = new Date();
+      date.setDate(12);
+      result.push([Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '昼食代', '480']);
+
+      result.push([Moment.moment().format(), 'u123456789', '12/25プレゼント', '8000']);
 
       expect(SheetObj.sheet.getDataRange().getValues()).toEqual(result);
     });
