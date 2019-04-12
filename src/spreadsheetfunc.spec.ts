@@ -1,5 +1,5 @@
 import { SpreadsheetFunc } from './spreadsheetfunc';
-import { LinePMBookData } from './linepmbook';
+import { LinePMBookData, LinePMBook } from './linepmbook';
 import { SpreadSheet } from './spreadsheet.mock';
 
 jest.unmock('./spreadsheetfunc');
@@ -7,6 +7,8 @@ SpreadsheetApp['getActiveSpreadsheet'] = jest.fn(() => new SpreadSheet());
 Logger['log'] = jest.fn(object => console.log(object));
 declare let Moment;
 Moment['moment'] = jest.fn(args => require('moment')(args));
+
+LinePMBook['getUSDRate'] = jest.fn().mockReturnValue(111.3);
 
 let contents = {
   destination: 'a12345678b123456789',
@@ -135,6 +137,29 @@ describe('SpreadsheetFunc', () => {
       result.push([Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '昼食代', '480']);
 
       result.push([Moment.moment().format(), 'u123456789', '12/25プレゼント', '8000']);
+
+      expect(SheetObj.sheet.getDataRange().getValues()).toEqual(result);
+    });
+
+    it('Success - 4', () => {
+      contents.events[0].message.text = '水\n3ドル';
+      let LineObj = new LinePMBookData(contents);
+      let SheetObj = new SpreadsheetFunc();
+      SheetObj.addData(LineObj);
+
+      var date = new Date();
+      date.setMonth(date.getMonth() - 1);
+      let result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
+
+      date = new Date();
+      date.setDate(10);
+      result.push([Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', 'お茶', '150']);
+
+      date = new Date();
+      date.setDate(12);
+      result.push([Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '昼食代', '480']);
+
+      result.push([Moment.moment().format(), 'u123456789', '水', '334']);
 
       expect(SheetObj.sheet.getDataRange().getValues()).toEqual(result);
     });

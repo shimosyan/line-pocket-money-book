@@ -30,24 +30,27 @@ global.doPost = (e: any): ContentService => {
   let response: string = '';
 
   if (LineObj.message.match(/^(いくら|幾ら|イクラ|ikura)/i)) {
-    response =
-      'あなたは今月' +
-      LinePMBook.formatMoney(SheetObj.getAggregatePrice(LineObj)) +
-      '円使いました。';
+    response = `あなたは今月${LinePMBook.formatMoney(
+      SheetObj.getAggregatePrice(LineObj)
+    )}円使いました。`;
   } else if (LineObj.message.match(/^(先月|せんげつ|sengetsu)/i)) {
-    response =
-      'あなたは先月' +
-      LinePMBook.formatMoney(SheetObj.getAggregatePrice(LineObj, 1)) +
-      '円使いました。';
+    response = `あなたは先月${LinePMBook.formatMoney(
+      SheetObj.getAggregatePrice(LineObj, 1)
+    )}円使いました。`;
   } else if (LineObj.message.match(/^(取り消し|とりけし|取消|torikesi|torikeshi)/i)) {
     LineObj = SheetObj.deleteLastData(LineObj);
 
-    response =
-      LineObj.shop + ': ' + LinePMBook.formatMoney(LineObj.price, 0) + '円の記録を削除しました。';
+    response = `${LineObj.shop}: ${LinePMBook.formatMoney(
+      LineObj.price,
+      0
+    )}円の記録を削除しました。`;
   } else {
     LineObj = SheetObj.addData(LineObj);
-    response =
-      LineObj.shop + ': ' + LinePMBook.formatMoney(LineObj.price, 0) + '円で登録しました。';
+    if (!LineObj.error) {
+      response = `${LineObj.shop}: ${LinePMBook.formatMoney(LineObj.price, 0)}円で登録しました。`;
+    } else {
+      response = LineObj.error;
+    }
   }
 
   // メッセージを返信
