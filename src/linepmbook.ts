@@ -1,4 +1,6 @@
 import ContentService = GoogleAppsScript.Content.TextOutput;
+import URLFetchResponse = GoogleAppsScript.URL_Fetch.HTTPResponse;
+import { Define } from './define';
 
 export type LineSendData = {
   destination: string;
@@ -21,6 +23,19 @@ type LineSendDataElement = {
   timestamp: number;
 };
 
+type RateObj = {
+  quotes: RateObjElement[];
+};
+
+type RateObjElement = {
+  high: string;
+  open: string;
+  bid: string;
+  currencyPairCode: string;
+  ask: string;
+  low: string;
+};
+
 export class LinePMBookData {
   private json: LineSendData;
   public message: string;
@@ -29,7 +44,9 @@ export class LinePMBookData {
   public type: string;
 
   public shop: string;
-  public price: number | string;
+  public price: number;
+
+  public error: string;
 
   constructor(event: LineSendData) {
     this.json = event;
@@ -51,11 +68,11 @@ export class LinePMBookData {
       return false;
     }
     // 一行目が金額で始まっている
-    if (this.message.match(/^\\?[\d,]+円?\s/)) {
+    if (this.message.match(/^\\?[\d,]+(円|ドル)?\s/)) {
       return true;
     }
     // 全体が2行で2行目が金額
-    if (this.message.match(/^[^\r\n]+\r?\n\\?[\d,]+円?[\r\n]*$/)) {
+    if (this.message.match(/^[^\r\n]+\r?\n\\?[\d,]+(円|ドル)?[\r\n]*$/)) {
       return true;
     }
     // 「いくら」
@@ -114,5 +131,23 @@ export class LinePMBook {
             .slice(2)
         : '')
     );
+  };
+
+  /**
+   * 現在のドルの円相場を取得する
+   * @return {number} 1ドルあたりの円
+   */
+  static getUSDRate = (): number => {
+    let response: URLFetchResponse = UrlFetchApp.fetch(Define.USD_rate_api);
+    let data: RateObj = JSON.parse(String(response.getContentText));
+    let usdjpy = data.quotes.filter(line => {
+      return line.currencyPairCode === 'USDJPY';
+    });
+
+    if (usdjpy === []) {
+      return 0;
+    }
+
+    return Number(usdjpy[0].bid);
   };
 }

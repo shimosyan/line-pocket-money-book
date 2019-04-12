@@ -1,7 +1,7 @@
 import Spreadsheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 import { Define } from './define';
-import { LinePMBookData } from './linepmbook';
+import { LinePMBookData, LinePMBook } from './linepmbook';
 
 declare let Moment: any;
 
@@ -48,20 +48,38 @@ export class SpreadsheetFunc {
       if (line === '') {
         return;
       }
-      if (!LineData.price && line.match(/^\\?\d+円?$/)) {
-        return (LineData.price = line.replace(/\D/g, ''));
+      if (!LineData.price && line.match(/^\\?\d+(円|ドル)?$/)) {
+        // ドルが指定されていた場合は為替レートを取得する
+        if (line.match(/^\\?\d+ドル?$/)) {
+          let rate = LinePMBook.getUSDRate();
+          if (rate === 0) {
+            return (LineData.error = '為替レートの取得に失敗しました。');
+          }
+          // ドルを日本円に直したものを返す
+          return (LineData.price = Number(line.replace(/\D/g, '')) * rate);
+        }
+
+        return (LineData.price = Number(line.replace(/\D/g, '')));
       }
-      if (!LineData.shop && !line.match(/^\\?\d+円?$/)) {
+      if (!LineData.shop && !line.match(/^\\?\d+(円|ドル)?$/)) {
         return (LineData.shop = line);
       }
     });
+
+    if (LineData.error) {
+      return LineData;
+    }
 
     let row: number = this.sheet.getLastRow() + 1;
     let data: Object[][] = [
       [Moment.moment().format(), LineData.uid, LineData.shop, LineData.price]
     ];
 
-    this.sheet.getRange(row, 1, 1, 4).setValues(data);
+    try {
+      this.sheet.getRange(row, 1, 1, 4).setValues(data);
+    } catch (e) {
+      LineData.error = '記録に失敗しました。';
+    }
 
     return LineData;
   };

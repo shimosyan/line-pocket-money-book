@@ -119,7 +119,7 @@ class Range {
     for (var r = this.start_row; r < this.range_row; r++) {
       res_col = [];
       for (var c = this.start_col; c < this.range_col; c++) {
-        res_col.push(this.data[r][c]);
+        res_col.push(String(this.data[r][c]));
       }
       response.push(res_col);
     }
