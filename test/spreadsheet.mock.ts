@@ -1,4 +1,4 @@
-import { Define } from './define';
+import { Define } from '../src/define';
 
 export class SpreadSheet {
   public sheet1;

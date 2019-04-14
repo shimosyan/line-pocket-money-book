@@ -1,6 +1,5 @@
-import { LinePMBookData, LinePMBook } from './linepmbook';
+import { LinePMBookData, LinePMBook } from '../src/linepmbook';
 
-jest.unmock('./linepmbook');
 Logger['log'] = jest.fn(object => console.log(object));
 declare let Moment;
 Moment['moment'] = jest.fn(args => require('moment')(args));

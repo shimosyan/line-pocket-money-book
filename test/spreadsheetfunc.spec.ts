@@ -1,8 +1,7 @@
-import { SpreadsheetFunc } from './spreadsheetfunc';
-import { LinePMBookData, LinePMBook } from './linepmbook';
+import { SpreadsheetFunc } from '../src/spreadsheetfunc';
+import { LinePMBookData, LinePMBook } from '../src/linepmbook';
 import { SpreadSheet } from './spreadsheet.mock';
 
-jest.unmock('./spreadsheetfunc');
 SpreadsheetApp['getActiveSpreadsheet'] = jest.fn(() => new SpreadSheet());
 Logger['log'] = jest.fn(object => console.log(object));
 declare let Moment;
