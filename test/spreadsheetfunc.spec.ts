@@ -2,8 +2,10 @@ import { SpreadsheetFunc } from '../src/spreadsheetfunc';
 import { LinePMBookData, LinePMBook } from '../src/linepmbook';
 import { SpreadSheet } from './spreadsheet.mock';
 
-SpreadsheetApp['getActiveSpreadsheet'] = jest.fn(() => new SpreadSheet());
-Logger['log'] = jest.fn(object => console.log(object));
+//SpreadsheetApp['getActiveSpreadsheet'] = jest.fn(() => new SpreadSheet());
+SpreadsheetApp['getActiveSpreadsheet'] = jest.fn().mockImplementation(() => new SpreadSheet());
+//Logger['log'] = jest.fn(object => console.log(object));
+Logger['log'] = jest.fn().mockImplementation(object => console.log(object));
 declare let Moment;
 Moment['moment'] = jest.fn(args => require('moment')(args));
 
