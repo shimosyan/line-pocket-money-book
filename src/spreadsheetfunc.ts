@@ -25,25 +25,16 @@ export class SpreadsheetFunc {
     date.add(month * -1, 'months');
 
     let data: Object[][] = this.sheet.getDataRange().getValues();
-    let score: number = 0;
-
-    /*data.forEach(line => {
-      let data_date = Moment.moment(line[0]);
-      if (line[1] == LineData.uid && date.format('YYYY-MM') == data_date.format('YYYY-MM')) {
-        score += Number(line[3]);
-      }
-    });*/
-
-    const filtered_data = data.filter(line => {
-      let data_date = Moment.moment(line[0]);
-      return line[1] == LineData.uid && date.format('YYYY-MM') == data_date.format('YYYY-MM');
-    });
-
-    const score_data = filtered_data.map(line => line[3]);
-
-    score = Number(score_data.reduce((total, line) => Number(total) + Number(line)));
-
-    return score;
+    return Number(
+      data
+        .filter(
+          line =>
+            line[1] == LineData.uid &&
+            date.format('YYYY-MM') == Moment.moment(line[0]).format('YYYY-MM')
+        )
+        .map(line => line[3])
+        .reduce((total, line) => Number(total) + Number(line))
+    );
   };
 
   /**
