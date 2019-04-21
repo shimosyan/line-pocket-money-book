@@ -88,6 +88,18 @@ describe('LinePMBookData', () => {
       let LineObj = new LinePMBookData(contents);
       expect(LineObj.filterMessage()).toBe(true);
     });
+
+    it('Success - case11', () => {
+      contents.events[0].message.text = '水\n3ドル';
+      let LineObj = new LinePMBookData(contents);
+      expect(LineObj.filterMessage()).toBe(true);
+    });
+
+    it('Success - case12', () => {
+      contents.events[0].message.text = '2.5ドル\n31アイス';
+      let LineObj = new LinePMBookData(contents);
+      expect(LineObj.filterMessage()).toBe(true);
+    });
   });
 });
 

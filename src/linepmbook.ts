@@ -64,15 +64,15 @@ export class LinePMBookData {
    */
   public filterMessage = (): boolean => {
     // 1行目、2行目がともに数字の場合はfalse
-    if (this.message.match(/^[\d,]+\r?\n\\?[\d,]+[\r\n]*$/)) {
+    if (this.message.match(/^[\d,\.]+\r?\n\\?[\d,]+[\r\n]*$/)) {
       return false;
     }
     // 一行目が金額で始まっている
-    if (this.message.match(/^\\?[\d,]+(円|ドル)?\s/)) {
+    if (this.message.match(/^\\?[\d,\.]+(円|ドル)?\s/)) {
       return true;
     }
     // 全体が2行で2行目が金額
-    if (this.message.match(/^[^\r\n]+\r?\n\\?[\d,]+(円|ドル)?[\r\n]*$/)) {
+    if (this.message.match(/^[^\r\n]+\r?\n\\?[\d,\.]+(円|ドル)?[\r\n]*$/)) {
       return true;
     }
     // 「いくら」

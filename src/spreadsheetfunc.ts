@@ -27,13 +27,21 @@ export class SpreadsheetFunc {
     let data: Object[][] = this.sheet.getDataRange().getValues();
     let score: number = 0;
 
-    data.forEach(line => {
-      console.log(line);
+    /*data.forEach(line => {
       let data_date = Moment.moment(line[0]);
       if (line[1] == LineData.uid && date.format('YYYY-MM') == data_date.format('YYYY-MM')) {
         score += Number(line[3]);
       }
+    });*/
+
+    const filtered_data = data.filter(line => {
+      let data_date = Moment.moment(line[0]);
+      return line[1] == LineData.uid && date.format('YYYY-MM') == data_date.format('YYYY-MM');
     });
+
+    const score_data = filtered_data.map(line => line[3]);
+
+    score = Number(score_data.reduce((total, line) => Number(total) + Number(line)));
 
     return score;
   };
@@ -48,20 +56,20 @@ export class SpreadsheetFunc {
       if (line === '') {
         return;
       }
-      if (!LineData.price && line.match(/^\\?\d+(円|ドル)?$/)) {
+      if (!LineData.price && line.match(/^\\?[\d,\.]+(円|ドル)?$/)) {
         // ドルが指定されていた場合は為替レートを取得する
-        if (line.match(/^\\?\d+ドル?$/)) {
+        if (line.match(/^\\?[\d,\.]+ドル?$/)) {
           let rate = LinePMBook.getUSDRate();
           if (rate === 0) {
             return (LineData.error = '為替レートの取得に失敗しました。');
           }
           // ドルを日本円に直したものを返す
-          return (LineData.price = Math.round(Number(line.replace(/\D/g, '')) * rate));
+          return (LineData.price = Math.round(Number(line.replace(/[^\.\d]/g, '')) * rate));
         }
 
-        return (LineData.price = Number(line.replace(/\D/g, '')));
+        return (LineData.price = Number(line.replace(/[^\.\d]/g, '')));
       }
-      if (!LineData.shop && !line.match(/^\\?\d+(円|ドル)?$/)) {
+      if (!LineData.shop && !line.match(/^\\?[\d,\.]+(円|ドル)?$/)) {
         return (LineData.shop = line);
       }
     });
