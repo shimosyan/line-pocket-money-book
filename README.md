@@ -2,11 +2,11 @@
 
 [![CircleCI](https://circleci.com/gh/shimosyan/line-pocket-money-book/tree/master.svg?style=svg)](https://circleci.com/gh/shimosyan/line-pocket-money-book/tree/master)
 
-LINEで使えるお小遣い帳です。
+LINE で使えるお小遣い帳です。
 
 ## 使い方
 
-Node.js及びnpmがインストールされているものとします。
+Node.js 及び npm がインストールされているものとします。
 
 ### 1. リポジトリの入手
 
@@ -17,9 +17,9 @@ git clone git@github.com:shimosyan/line-pocket-money-book.git <project_name>
 cd <project_name>
 ```
 
-### 2. LINE Developersの登録
+### 2. LINE Developers の登録
 
-LINE Developersに登録し、BOTを作成します。トークンはロングタームを使用してください。
+LINE Developers に登録し、BOT を作成します。トークンはロングタームを使用してください。
 
 ### 3. 必要なものをインストールする
 
@@ -37,16 +37,16 @@ npm install
 「管理シート」には以下のように見出しをつけてください。
 
 | タイムスタンプ | USER_ID | 内容 | 金額 |
-----|----|----|----
-|  |  |  |  |
+| -------------- | ------- | ---- | ---- |
 
-A～Dの4列しか使わないので、E列以降は削除しても構いません。
+
+A ～ D の 4 列しか使わないので、E 列以降は削除しても構いません。
 
 #### 4-2. このプロジェクトとスプレッドシートと紐付ける
 
-.clasp.json.sampleを.clasp.jsonとしてコピーし、Google App Scriptのscript_idを登録します。
+.clasp.json.sample を .clasp.json としてコピーし、Google App Script の script_id を登録します。
 
-ScriptIDはスクリプトエディタを開いたURLの[ https://script.google.com/a/macros/ecdesk.jp/d/\<script_id\>/edit～ ]の部分です。
+ScriptID はスクリプトエディタを開いた URL の [ https://script.google.com/a/macros/ecdesk.jp/d/\<script_id\>/edit ～ ] の部分です。
 
 (デプロイに失敗する場合はスクリプトプロジェクトを作り直してみてください。)
 
@@ -59,15 +59,15 @@ ScriptIDはスクリプトエディタを開いたURLの[ https://script.google.
 }
 ```
 
-続いて、.env.sampleを.envとしてコピーし、LINEのBOTのトークンを入力します。
+続いて、.env.sample を .env としてコピーし、LINE の BOT のトークンを入力します。
 
 ```javascript
 .env
 
-LINE_TOKEN="BOTのトークン"
+LINE_TOKEN="BOT のトークン"
 ```
 
-### 5. Google App Scriptにデプロイする
+### 5. Google App Script にデプロイする
 
 #### 5-1. ビルドする
 
@@ -75,30 +75,30 @@ LINE_TOKEN="BOTのトークン"
 npm run build
 ```
 
-#### 5-2. Google App Scriptにデプロイする (claspとgoogleアカウントを紐付ける)
+#### 5-2. Google App Script にデプロイする ( clasp と google アカウントを紐付ける)
 
-以下のコマンドを実行し画面の指示に従いclaspにgoogleアカウントを紐付ける。
+以下のコマンドを実行し画面の指示に従い clasp に google アカウントを紐付ける。
 
 ```shell
 clasp login
 ```
 
-続いて、以下のアドレスにアクセスしGoogle App Script APIを有効にする。
+続いて、以下のアドレスにアクセスし Google App Script API を有効にする。
 
 https://script.google.com/home/usersettings
 
-以下のコマンドでGoogle App Scriptにデプロイする。
+以下のコマンドで Google App Script にデプロイする。
 
 ```shell
 clasp push
 ```
 
-#### 5-3. Google App ScriptをWebAPPとして公開する
+#### 5-3. Google App Script を WebAPP として公開する
 
-Google App Scriptエディタの「公開」→「ウェブアプリケーションとして公開」を選択し、以下の内容で設定してください。
+Google App Script エディタの「公開」→「ウェブアプリケーションとして公開」を選択し、以下の内容で設定してください。
 
 - プロジェクト バージョン: New
 - 次のユーザーとしてアプリケーションを実行: 自分
 - アプリケーションにアクセスできるユーザー: 全員(匿名ユーザー含む)
 
-ウェブアプリケーションとして公開したら、そのURLをLINEのBOTのWebhook欄に設定してください。
+ウェブアプリケーションとして公開したら、その URL を LINE の BOT の Webhook 欄に設定してください。
