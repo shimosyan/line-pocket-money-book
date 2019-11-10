@@ -31,5 +31,5 @@ jobs:
         with:
           title: Security Update into master. - $(date "+%Y%m%d")
           label: Auto-PR
-          branch: securityFix-$(date "+%Y%m%d")
+          branch: securityFix
           token: ${{ secrets.GITHUB }}
