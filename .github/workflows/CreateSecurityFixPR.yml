@@ -1,4 +1,4 @@
-name: Auto Security Fix
+name: Create Security Fix Pull Request
 on:
   schedule:
     #    - cron: '0 3 * * 3' # 毎週水曜日の正午に実行 ( 12+JST = 3+UTC )
@@ -39,4 +39,7 @@ jobs:
       - name: Pull Request
         uses: repo-sync/pull-request@v2
         with:
+          source_branch: securityFix-$(date "+%Y%m%d")
+          pr_title: "Security Update into master. - $(date "+%Y%m%d")"
+          pr_label: "Auto-PR"                   # Comma-separated list (no spaces)
           github_token: ${{ secrets.GITHUB }}
