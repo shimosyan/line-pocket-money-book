@@ -24,7 +24,7 @@ jobs:
 
       - name: Check diff
         run: |
-          if ! git diff --stat package-lock.json | grep "changed" 2>&1; then
+          if ! git diff --stat package-lock.json | grep "changed"; then
             echo "Already up to date."
             exit 0
           fi
