@@ -30,17 +30,11 @@ jobs:
             exit 0
           fi
 
-      - name: Commit changes # This is the step name that will be displayed in your runs
-        uses: EndBug/add-and-commit@v2.1.0 # You can change this to use a specific version
-        with: # See more info about inputs below
-          author_name: ${{ secrets.AUTHOR_NAME }}
-          author_email: ${{ secrets.AUTHOR_EMAIL }}
-          message: 'SecurityFix'
-          path: '.'
-          pattern: 'package-lock.json'
-          force: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB }} # Leave this line unchanged
+      - name: Commit changes
+        run: |
+          git add package-lock.json
+          git commit -m "SecurityFix"
+          git push
 
       - name: Pull Request
         uses: repo-sync/pull-request@v2
