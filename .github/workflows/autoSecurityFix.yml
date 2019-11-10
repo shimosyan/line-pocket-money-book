@@ -1,0 +1,48 @@
+name: Auto Security Fix
+on:
+  schedule:
+    #    - cron: '0 3 * * 3' # 毎週水曜日の正午に実行 ( 12+JST = 3+UTC )
+    - cron: '15 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+
+      - uses: actions/checkout@master
+
+      - name: Git Checkout
+        run: |
+          today=$(date "+%Y%m%d")
+          git checkout -b "securityFix-${today}"
+
+      - run: npm install
+
+      - run: npm audit fix
+
+      - name: Check diff
+        run: |
+          if ! git diff --stat package-lock.json | grep "changed" >/dev/null 2>&1; then
+            echo "Already up to date."
+            exit 0
+          fi
+
+      - name: Commit changes # This is the step name that will be displayed in your runs
+        uses: EndBug/add-and-commit@v2.1.0 # You can change this to use a specific version
+        with: # See more info about inputs below
+          author_name: Your Name
+          author_email: mail@example.com
+          message: 'Your commit message'
+          path: '.'
+          pattern: '*.js'
+          force: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB }} # Leave this line unchanged
+
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
+        with:
+          github_token: ${{ secrets.GITHUB }}
