@@ -18,7 +18,8 @@ jobs:
       - name: Git Checkout
         run: |
           today=$(date "+%Y%m%d")
-          git checkout -b "securityFix-${today}"
+          export BRANCH_NAME="securityFix-${today}"
+          git checkout -b ${BRANCH_NAME}
 
       - run: npm audit fix
 
@@ -36,7 +37,7 @@ jobs:
           git config --global user.name "${{ secrets.AUTHOR_NAME }}"
           git add package-lock.json
           git commit -m "SecurityFix"
-          git push
+          git push --set-upstream origin ${BRANCH_NAME}
 
       - name: Pull Request
         uses: repo-sync/pull-request@v2
