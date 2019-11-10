@@ -1,8 +1,7 @@
 name: Create Security Fix Pull Request
 on:
   schedule:
-    #    - cron: '0 3 * * 3' # 毎週水曜日の正午に実行 ( 12+JST = 3+UTC )
-    - cron: '*/15 * * * *'
+    - cron: '0 3 * * 3' # 毎週水曜日の正午に実行 ( 12+JST = 3+UTC )
 
 jobs:
   patch:
@@ -29,7 +28,7 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v1.7.0
         with:
-          title: Security Update into master. - $(date "+%Y%m%d")
+          title: Security Update into master.
           label: Auto-PR
           branch: securityFix
           token: ${{ secrets.GITHUB }}
