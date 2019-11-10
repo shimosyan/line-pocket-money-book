@@ -6,6 +6,9 @@ on:
 
 jobs:
   patch:
+    env:
+      BRANCH_NAME: "securityFix-$(date "+%Y%m%d")"
+
     runs-on: ubuntu-latest
 
     steps:
@@ -16,10 +19,7 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Git Checkout
-        run: |
-          today=$(date "+%Y%m%d")
-          export BRANCH_NAME="securityFix-${today}"
-          git checkout -b ${BRANCH_NAME}
+        run: git checkout -b ${BRANCH_NAME}
 
       - run: npm audit fix
 
