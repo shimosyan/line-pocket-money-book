@@ -34,8 +34,8 @@ jobs:
       - name: Commit changes # This is the step name that will be displayed in your runs
         uses: EndBug/add-and-commit@v2.1.0 # You can change this to use a specific version
         with: # See more info about inputs below
-          author_name: ${{ AUTHOR_NAME }}
-          author_email: ${{ AUTHOR_EMAIL }}
+          author_name: ${{ secrets.AUTHOR_NAME }}
+          author_email: ${{ secrets.AUTHOR_EMAIL }}
           message: 'SecurityFix'
           path: '.'
           pattern: 'package*.json'
