@@ -40,6 +40,6 @@ jobs:
         uses: repo-sync/pull-request@v2
         with:
           source_branch: securityFix-$(date "+%Y%m%d")
-          pr_title: "Security Update into master. - $(date "+%Y%m%d")"
-          pr_label: "Auto-PR"                   # Comma-separated list (no spaces)
+          pr_title: Security Update into master. - $(date "+%Y%m%d")
+          pr_label: 'Auto-PR'
           github_token: ${{ secrets.GITHUB }}
