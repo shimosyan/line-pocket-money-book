@@ -20,13 +20,12 @@ jobs:
           today=$(date "+%Y%m%d")
           git checkout -b "securityFix-${today}"
 
-      - run: npm install
-
       - run: npm audit fix
 
       - name: Check diff
         run: |
-          if ! git diff --stat package-lock.json | grep "changed" >/dev/null 2>&1; then
+          git diff --stat package-lock.json
+          if ! git diff --stat package-lock.json | grep "changed" 2>&1; then
             echo "Already up to date."
             exit 0
           fi
@@ -38,7 +37,7 @@ jobs:
           author_email: ${{ secrets.AUTHOR_EMAIL }}
           message: 'SecurityFix'
           path: '.'
-          pattern: 'package*.json'
+          pattern: 'package-lock.json'
           force: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB }} # Leave this line unchanged
