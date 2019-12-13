@@ -14,8 +14,11 @@ aliases:
       - node_modules
 
   - &update_npm
-    name: Show system information.
-    command: sudo npm install -g -npm
+    name: Update npm module.
+    command: |
+      # see =>  https://qiita.com/llhrkll/items/d18abbd097da92e39827
+      npm config set prefix '$HOME/.npm-global/'
+      npm install -g -npm
 
   - &show_information
     name: Show system information.
