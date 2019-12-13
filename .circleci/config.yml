@@ -14,8 +14,8 @@ aliases:
       - node_modules
 
   - &update_npm
-  name: Show system information.
-  command: npm install -g -npm
+    name: Show system information.
+    command: npm install -g -npm
 
   - &show_information
     name: Show system information.
