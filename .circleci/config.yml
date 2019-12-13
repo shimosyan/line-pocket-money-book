@@ -1,5 +1,7 @@
 version: 2
 
+# cSpell:ignore circleci, chmod
+
 aliases:
   - &container_config
     docker:
@@ -11,17 +13,22 @@ aliases:
     paths:
       - node_modules
 
-  - &show_infomation
+  - &update_npm
+    name: Update npm module.
+    command: sudo npm install -g npm@latest
+
+  - &show_information
     name: Show system information.
     command: |
       echo "Node $(node -v)"
       echo "Npm $(npm -v)"
+
   - &restore_cache
     name: Restore Cache.
     <<: *node_modules_cache_params
 
   - &npm_install
-    name: Set up to gas clasp enviroment.
+    name: Set up to gas clasp environment.
     command: npm install
 
   - &save_cache
@@ -61,7 +68,8 @@ jobs:
     <<: *container_config
     steps:
       - checkout
-      - run: *show_infomation
+      - run: *update_npm
+      - run: *show_information
       - restore_cache: *restore_cache
       - run: *npm_install
       - save_cache: *save_cache
@@ -74,7 +82,8 @@ jobs:
     <<: *container_config
     steps:
       - checkout
-      - run: *show_infomation
+      - run: *update_npm
+      - run: *show_information
       - restore_cache: *restore_cache
       - run: *npm_install
       - save_cache: *save_cache

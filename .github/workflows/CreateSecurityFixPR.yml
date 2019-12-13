@@ -1,7 +1,8 @@
 name: Create Security Fix Pull Request
 on:
   schedule:
-    - cron: '0 3 * * 3' # 毎週水曜日の正午に実行 ( 12+JST = 3+UTC )
+    #- cron: "0 3 * * 3" # 毎週水曜日の正午に実行 ( 12+JST = 3+UTC )
+    - cron: "*/5 * * * *" # 毎週水曜日の正午に実行 ( 12+JST = 3+UTC )
 
 jobs:
   patch:
@@ -10,25 +11,21 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: "10.x"
 
       - uses: actions/checkout@master
 
-      - run: npm audit fix
+      - run: |
+          npm install -g npm
+          npm -v
 
-      - name: Check diff
-        run: |
-          git diff --stat package-lock.json
-          if ! git diff --stat package-lock.json | grep "changed" 2>&1; then
-            echo "Already up to date."
-            exit 0
-          fi
+      - run: npm audit fix
 
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v1.7.0
         with:
           title: Security Update into master.
-          label: Auto-PR
+          labels: Auto PR
           branch: securityFix
           token: ${{ secrets.GITHUB }}
