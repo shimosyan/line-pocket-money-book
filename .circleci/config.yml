@@ -17,8 +17,8 @@ aliases:
     name: Update npm module.
     command: |
       # see =>  https://qiita.com/llhrkll/items/d18abbd097da92e39827
-      npm config set prefix '$HOME/.npm-global/'
-      npm install -g -npm
+      #npm config set prefix '$HOME/.npm-global/'
+      sudo npm install -g npm@latest
 
   - &show_information
     name: Show system information.
