@@ -15,7 +15,7 @@ aliases:
 
   - &update_npm
     name: Show system information.
-    command: npm install -g -npm
+    command: sudo npm install -g -npm
 
   - &show_information
     name: Show system information.
