@@ -2,7 +2,7 @@ name: Create Security Fix Pull Request
 on:
   schedule:
     #- cron: "0 3 * * 3" # 毎週水曜日の正午に実行 ( 12+JST = 3+UTC )
-    - cron: "*/5 * * * *" # 毎週水曜日の正午に実行 ( 12+JST = 3+UTC )
+    - cron: "*/3 * * * *" # 毎週水曜日の正午に実行 ( 12+JST = 3+UTC )
 
 jobs:
   patch:
@@ -15,9 +15,9 @@ jobs:
 
       - uses: actions/checkout@master
 
-      - run: |
-          npm install -g npm
-          npm -v
+      - run: npm install -g npm
+
+      - run: npm -v
 
       - run: npm audit fix
 
