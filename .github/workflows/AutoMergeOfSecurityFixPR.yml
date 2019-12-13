@@ -1,8 +1,8 @@
-name: Auto Merge of Approved Pull Request
+name: Auto Merge at Security Fix Pull Request
 on:
-  pull_request_review:
-    types:
-      - submitted
+  pull_request:
+    branches:
+      - "securityFix-*"
 
 jobs:
   automerge:
