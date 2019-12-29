@@ -20,6 +20,7 @@
     "@types/google-apps-script": "0.0.44",
     "@types/jest": "^24.0.25",
     "@types/node": "^13.1.1",
+    "@types/yargs": "^13.0.4",
     "ajv": "^6.10.0",
     "babel-jest": "^24.7.1",
     "braces": "^2.3.1",
