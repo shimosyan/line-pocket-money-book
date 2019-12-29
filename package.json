@@ -32,7 +32,7 @@
     "moment": "^2.24.0",
     "npm-check-updates": "^3.1.7",
     "prettier": "^1.17.0",
-    "rimraf": "^2.6.3",
+    "rimraf": "^3.0.0",
     "ts-jest": "^24.0.2",
     "ts-loader": "^5.3.3",
     "tslint": "^5.15.0",
