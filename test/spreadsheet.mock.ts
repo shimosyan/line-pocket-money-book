@@ -134,7 +134,7 @@ class Range {
     }
   };
 
-  public setValues = (input: [[(string | number)]]): void => {
+  public setValues = (input: [[string | number]]): void => {
     var count_r = 0,
       count_c = 0;
     for (var r = this.start_row; r < this.range_row; r++) {
