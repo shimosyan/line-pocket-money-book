@@ -1,7 +1,6 @@
 # LINE - Pocket Money Book
 
 [![CircleCI](https://circleci.com/gh/shimosyan/line-pocket-money-book/tree/master.svg?style=svg)](https://circleci.com/gh/shimosyan/line-pocket-money-book/tree/master)
-[![Actions Status](https://github.com/shimosyan/line-pocket-money-book/workflows/Create%20Security%20Fix%20Pull%20Request/badge.svg)](https://github.com/shimosyan/line-pocket-money-book/actions)
 
 LINE で使えるお小遣い帳です。
 
@@ -39,7 +38,6 @@ npm install
 
 | タイムスタンプ | USER_ID | 内容 | 金額 |
 | -------------- | ------- | ---- | ---- |
-
 
 A ～ D の 4 列しか使わないので、E 列以降は削除しても構いません。
 
@@ -86,7 +84,7 @@ clasp login
 
 続いて、以下のアドレスにアクセスし Google App Script API を有効にする。
 
-https://script.google.com/home/usersettings
+<https://script.google.com/home/usersettings>
 
 以下のコマンドで Google App Script にデプロイする。
 
