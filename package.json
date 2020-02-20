@@ -33,7 +33,7 @@
     "npm-check-updates": "^4.0.1",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
-    "ts-jest": "^25.2.0",
+    "ts-jest": "^25.2.1",
     "ts-loader": "^5.3.3",
     "typedoc": "^0.16.10",
     "typescript": "^3.7.5",
