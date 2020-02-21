@@ -1,9 +1,12 @@
+//cSpell:ignore camelcase, linepmbook, spreadsheetfunc, ikura, sengetsu, torikesi, torikeshi
 import ContentService = GoogleAppsScript.Content.TextOutput;
+// eslint-disable-next-line @typescript-eslint/camelcase
 import URLFetchRequestOptions = GoogleAppsScript.URL_Fetch.URLFetchRequestOptions; //UrlFetchApp.fetchでオプションを指定するときに必要
 import { Define } from './define';
 import { LinePMBookData, LinePMBook } from './linepmbook';
 import { SpreadsheetFunc } from './spreadsheetfunc';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare let global: any;
 declare let process: any;
 
@@ -13,7 +16,7 @@ const LINE_TOKEN: string = process.env.LINE_TOKEN;
 global.doPost = (e: any): ContentService => {
   console.log(JSON.parse(e.postData.contents));
   let LineObj = new LinePMBookData(JSON.parse(e.postData.contents));
-  if (typeof LineObj.reply_token === 'undefined') {
+  if (typeof LineObj.replyToken === 'undefined') {
     return LinePMBook.responseData();
   }
 
@@ -25,9 +28,9 @@ global.doPost = (e: any): ContentService => {
     return LinePMBook.responseData();
   }
 
-  let SheetObj = new SpreadsheetFunc();
+  const SheetObj = new SpreadsheetFunc();
 
-  let response: string = '';
+  let response = '';
 
   if (LineObj.message.match(/^(いくら|幾ら|イクラ|ikura)/i)) {
     response = `あなたは今月${LinePMBook.formatMoney(
@@ -54,14 +57,14 @@ global.doPost = (e: any): ContentService => {
   }
 
   // メッセージを返信
-  let option: URLFetchRequestOptions = {
+  const option: URLFetchRequestOptions = {
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       Authorization: 'Bearer ' + LINE_TOKEN
     },
     method: 'post',
     payload: JSON.stringify({
-      replyToken: LineObj.reply_token,
+      replyToken: LineObj.replyToken,
       messages: [
         {
           type: 'text',
