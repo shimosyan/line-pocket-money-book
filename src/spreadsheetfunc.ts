@@ -1,9 +1,26 @@
+//cSpell:ignore linepmbook
 import Spreadsheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 import { Define } from './define';
 import { LinePMBookData, LinePMBook } from './linepmbook';
 
-declare let Moment: any;
+import * as moment from 'moment';
+// eslint-disable-next-line @typescript-eslint/no-namespace
+declare namespace Moment {
+  function moment(
+    inp?: moment.MomentInput,
+    format?: moment.MomentFormatSpecification,
+    strict?: boolean
+  ): moment.Moment;
+  function moment(
+    inp?: moment.MomentInput,
+    format?: moment.MomentFormatSpecification,
+    language?: string,
+    strict?: boolean
+  ): moment.Moment;
+}
+
+type SheetValue = string | number | boolean | Date;
 
 export class SpreadsheetFunc {
   ss: Spreadsheet;
@@ -20,17 +37,17 @@ export class SpreadsheetFunc {
    * @param {number} month            現在から数えて何ヶ月前で金額を集計するか指定する(デフォルトは0 = 現在)
    * @return {number}                 金額
    */
-  public getAggregatePrice = (LineData: LinePMBookData, month: number = 0): number => {
-    let date = Moment.moment();
+  public getAggregatePrice = (LineData: LinePMBookData, month = 0): number => {
+    const date = Moment.moment();
     date.add(month * -1, 'months');
 
-    let data: Object[][] = this.sheet.getDataRange().getValues();
+    const data: SheetValue[][] = this.sheet.getDataRange().getValues();
     return Number(
       data
         .filter(
           line =>
             line[1] == LineData.uid &&
-            date.format('YYYY-MM') == Moment.moment(line[0]).format('YYYY-MM')
+            date.format('YYYY-MM') == Moment.moment(String(line[0])).format('YYYY-MM')
         )
         .map(line => line[3])
         .reduce((total, line) => Number(total) + Number(line))
@@ -50,7 +67,7 @@ export class SpreadsheetFunc {
       if (!LineData.price && line.match(/^\\?[\d,\.]+(円|ドル)?$/)) {
         // ドルが指定されていた場合は為替レートを取得する
         if (line.match(/^\\?[\d,\.]+ドル?$/)) {
-          let rate = LinePMBook.getUSDRate();
+          const rate = LinePMBook.getUSDRate();
           if (rate === 0) {
             return (LineData.error = '為替レートの取得に失敗しました。');
           }
@@ -69,9 +86,9 @@ export class SpreadsheetFunc {
       return LineData;
     }
 
-    let row: number = this.sheet.getLastRow() + 1;
-    let data: Object[][] = [
-      [Moment.moment().format(), LineData.uid, LineData.shop, LineData.price]
+    const row: number = this.sheet.getLastRow() + 1;
+    const data: SheetValue[][] = [
+      [Moment.moment().format(), LineData.uid, LineData.shop, String(LineData.price)]
     ];
 
     try {
@@ -89,21 +106,21 @@ export class SpreadsheetFunc {
    * @return {LinePMBookData}
    */
   public deleteLastData = (LineData: LinePMBookData): LinePMBookData => {
-    let data: Object[][] = this.sheet
+    const data: SheetValue[][] = this.sheet
       .getDataRange()
       .getValues()
       .reverse();
     let row: number = data.length;
 
-    let break_flg: boolean = false;
+    let breakFlg = false;
 
     data.forEach(line => {
-      if (break_flg) {
+      if (breakFlg) {
         return;
       }
       console.log(line);
       if (line[1] == LineData.uid) {
-        break_flg = true;
+        breakFlg = true;
       }
 
       row--;

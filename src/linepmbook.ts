@@ -1,4 +1,6 @@
+//cSpell:ignore camelcase, USDJPY
 import ContentService = GoogleAppsScript.Content.TextOutput;
+// eslint-disable-next-line @typescript-eslint/camelcase
 import URLFetchResponse = GoogleAppsScript.URL_Fetch.HTTPResponse;
 import { Define } from './define';
 
@@ -40,7 +42,7 @@ export class LinePMBookData {
   private json: LineSendData;
   public message: string;
   public uid: string;
-  public reply_token: string;
+  public replyToken: string;
   public type: string;
 
   public shop: string;
@@ -51,7 +53,7 @@ export class LinePMBookData {
   constructor(event: LineSendData) {
     this.json = event;
 
-    this.reply_token = this.json.events[0].replyToken;
+    this.replyToken = this.json.events[0].replyToken;
     this.type = this.json.events[0].type;
 
     this.message = this.json.events[0].message.text;
@@ -110,15 +112,11 @@ export class LinePMBook {
    * @param {string} t          桁区切りの文字を指定(デフォルト,)
    * @return {string}           整形された文字列
    */
-  static formatMoney = (
-    n: number | string,
-    c: number = 0,
-    d: string = '.',
-    t: string = ','
-  ): string => {
-    var s = n < 0 ? '-' : '',
-      i = String(parseInt((n = Math.abs(Number(n) || 0).toFixed(c)))),
-      j = (j = i.length) > 3 ? j % 3 : 0;
+  static formatMoney = (n: number | string, c = 0, d = '.', t = ','): string => {
+    const s = n < 0 ? '-' : '',
+      i = String(parseInt((n = Math.abs(Number(n) || 0).toFixed(c))));
+    let j;
+    j = (j = i.length) > 3 ? j % 3 : 0;
 
     return (
       s +
@@ -138,9 +136,9 @@ export class LinePMBook {
    * @return {number} 1ドルあたりの円
    */
   static getUSDRate = (): number => {
-    let response: URLFetchResponse = UrlFetchApp.fetch(Define.USD_rate_api);
-    let data: RateObj = JSON.parse(response.getContentText());
-    let usdjpy = data.quotes.filter(line => {
+    const response: URLFetchResponse = UrlFetchApp.fetch(Define.USD_rate_api);
+    const data: RateObj = JSON.parse(response.getContentText());
+    const usdjpy = data.quotes.filter(line => {
       return line.currencyPairCode === 'USDJPY';
     });
 

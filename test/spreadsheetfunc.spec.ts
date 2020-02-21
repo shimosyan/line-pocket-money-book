@@ -1,3 +1,4 @@
+//cSpell:ignore linepmbook, spreadsheetfunc
 import { SpreadsheetFunc } from '../src/spreadsheetfunc';
 import { LinePMBookData, LinePMBook } from '../src/linepmbook';
 import { SpreadSheet } from './spreadsheet.mock';
@@ -5,11 +6,12 @@ import { SpreadSheet } from './spreadsheet.mock';
 SpreadsheetApp['getActiveSpreadsheet'] = jest.fn().mockImplementation(() => new SpreadSheet());
 Logger['log'] = jest.fn().mockImplementation(object => console.log(object));
 declare let Moment;
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 Moment['moment'] = jest.fn(args => require('moment')(args));
 
 LinePMBook['getUSDRate'] = jest.fn().mockReturnValue(111.3);
 
-let contents = {
+const contents = {
   destination: 'a12345678b123456789',
   events: [
     {
@@ -30,20 +32,32 @@ let contents = {
   ]
 };
 
+class Func {
+  static dateFormat = (date: Date): string => {
+    return (
+      date.getFullYear() +
+      '-' +
+      ('0' + (date.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + date.getDate()).slice(-2)
+    );
+  };
+}
+
 describe('SpreadsheetFunc', () => {
   describe('getAggregatePrice()', () => {
     it('Success - this month', () => {
       contents.events[0].message.text = 'いくら';
-      let LineObj = new LinePMBookData(contents);
-      let SheetObj = new SpreadsheetFunc();
+      const LineObj = new LinePMBookData(contents);
+      const SheetObj = new SpreadsheetFunc();
       const result = 630;
       expect(SheetObj.getAggregatePrice(LineObj)).toBe(result);
     });
 
     it('Success - last month', () => {
       contents.events[0].message.text = '先月';
-      let LineObj = new LinePMBookData(contents);
-      let SheetObj = new SpreadsheetFunc();
+      const LineObj = new LinePMBookData(contents);
+      const SheetObj = new SpreadsheetFunc();
       const result = 7800;
       expect(SheetObj.getAggregatePrice(LineObj, 1)).toBe(result);
     });
@@ -52,13 +66,13 @@ describe('SpreadsheetFunc', () => {
   describe('deleteLastData()', () => {
     it('Success', () => {
       contents.events[0].message.text = '取り消し';
-      let LineObj = new LinePMBookData(contents);
-      let SheetObj = new SpreadsheetFunc();
+      const LineObj = new LinePMBookData(contents);
+      const SheetObj = new SpreadsheetFunc();
       SheetObj.deleteLastData(LineObj);
 
-      var date = new Date();
+      let date = new Date();
       date.setMonth(date.getMonth() - 1);
-      let result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
+      const result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
 
       date = new Date();
       date.setDate(10);
@@ -73,13 +87,13 @@ describe('SpreadsheetFunc', () => {
   describe('addData()', () => {
     it('Success - 1', () => {
       contents.events[0].message.text = '800\nスタバ';
-      let LineObj = new LinePMBookData(contents);
-      let SheetObj = new SpreadsheetFunc();
+      const LineObj = new LinePMBookData(contents);
+      const SheetObj = new SpreadsheetFunc();
       SheetObj.addData(LineObj);
 
-      var date = new Date();
+      let date = new Date();
       date.setMonth(date.getMonth() - 1);
-      let result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
+      const result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
 
       date = new Date();
       date.setDate(10);
@@ -96,13 +110,13 @@ describe('SpreadsheetFunc', () => {
 
     it('Success - 2', () => {
       contents.events[0].message.text = '8000\n12/25プレゼント';
-      let LineObj = new LinePMBookData(contents);
-      let SheetObj = new SpreadsheetFunc();
+      const LineObj = new LinePMBookData(contents);
+      const SheetObj = new SpreadsheetFunc();
       SheetObj.addData(LineObj);
 
-      var date = new Date();
+      let date = new Date();
       date.setMonth(date.getMonth() - 1);
-      let result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
+      const result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
 
       date = new Date();
       date.setDate(10);
@@ -119,13 +133,13 @@ describe('SpreadsheetFunc', () => {
 
     it('Success - 3', () => {
       contents.events[0].message.text = '12/25プレゼント\n8000';
-      let LineObj = new LinePMBookData(contents);
-      let SheetObj = new SpreadsheetFunc();
+      const LineObj = new LinePMBookData(contents);
+      const SheetObj = new SpreadsheetFunc();
       SheetObj.addData(LineObj);
 
-      var date = new Date();
+      let date = new Date();
       date.setMonth(date.getMonth() - 1);
-      let result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
+      const result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
 
       date = new Date();
       date.setDate(10);
@@ -142,13 +156,13 @@ describe('SpreadsheetFunc', () => {
 
     it('Success - 4', () => {
       contents.events[0].message.text = '水\n3ドル';
-      let LineObj = new LinePMBookData(contents);
-      let SheetObj = new SpreadsheetFunc();
+      const LineObj = new LinePMBookData(contents);
+      const SheetObj = new SpreadsheetFunc();
       SheetObj.addData(LineObj);
 
-      var date = new Date();
+      let date = new Date();
       date.setMonth(date.getMonth() - 1);
-      let result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
+      const result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
 
       date = new Date();
       date.setDate(10);
@@ -165,13 +179,13 @@ describe('SpreadsheetFunc', () => {
 
     it('Success - 5', () => {
       contents.events[0].message.text = '2.5ドル\n31アイス';
-      let LineObj = new LinePMBookData(contents);
-      let SheetObj = new SpreadsheetFunc();
+      const LineObj = new LinePMBookData(contents);
+      const SheetObj = new SpreadsheetFunc();
       SheetObj.addData(LineObj);
 
-      var date = new Date();
+      let date = new Date();
       date.setMonth(date.getMonth() - 1);
-      let result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
+      const result = [[Func.dateFormat(date) + 'T00:00:00+09:00', 'u123456789', '服代', '7800']];
 
       date = new Date();
       date.setDate(10);
@@ -187,15 +201,3 @@ describe('SpreadsheetFunc', () => {
     });
   });
 });
-
-class Func {
-  static dateFormat = (date: Date): string => {
-    return (
-      date.getFullYear() +
-      '-' +
-      ('0' + (date.getMonth() + 1)).slice(-2) +
-      '-' +
-      ('0' + date.getDate()).slice(-2)
-    );
-  };
-}
