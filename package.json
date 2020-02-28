@@ -36,7 +36,7 @@
     "rimraf": "^3.0.2",
     "ts-jest": "^25.2.1",
     "ts-loader": "^5.3.3",
-    "typedoc": "^0.16.10",
+    "typedoc": "^0.16.11",
     "typescript": "^3.8.2",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11"
