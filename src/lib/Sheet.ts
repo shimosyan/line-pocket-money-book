@@ -47,20 +47,19 @@ export class Sheet {
       if (breakFlg) {
         return;
       }
-      console.log(line);
       if (line[1] == userId) {
         breakFlg = true;
       }
 
       row--;
     });
-    console.log(row);
 
     data.reverse();
     const shop = String(data[row][2]);
     const price = Number(data[row][3]);
 
     this.sheet.deleteRow(row + 1);
+    console.log(`[Delete] Row: ${row + 1}`);
 
     return {
       shop: shop,
