@@ -3,6 +3,7 @@ import { Sheet } from './Sheet';
 import { AggregateJob } from './job/AggregateJob';
 import { InsertJob } from './job/InsertJob';
 import { DeleteJob } from './job/DeleteJob';
+import { SearchJob } from './job/SearchJob';
 
 export type MessageParam = {
   message: string;
@@ -38,6 +39,12 @@ export class JobManager {
     const deleteJob = new DeleteJob(line, sheet);
     if (deleteJob.check(messageElement)) {
       this.jobRun = deleteJob.run;
+      return true;
+    }
+
+    const searchJob = new SearchJob(line, sheet);
+    if (searchJob.check(messageElement)) {
+      this.jobRun = searchJob.run;
       return true;
     }
     return false;
