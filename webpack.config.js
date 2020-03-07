@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
-const GasPlugin = require("gas-webpack-plugin");
-const Webpack = require("webpack");
+const GasPlugin = require('gas-webpack-plugin');
+const Webpack = require('webpack');
 require('dotenv').config();
 
-var defineEnv = new Webpack.DefinePlugin({
+// cSpell:ignore devtool
+
+const defineEnv = new Webpack.DefinePlugin({
   'process.env': {
-    'LINE_TOKEN': JSON.stringify(process.env.LINE_TOKEN)
+    LINE_TOKEN: JSON.stringify(process.env.LINE_TOKEN)
   }
 });
-
 
 module.exports = {
   mode: 'development',
@@ -27,12 +29,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [
-      '.ts'
-    ]
+    extensions: ['.ts']
   },
-  plugins: [
-    new GasPlugin(),
-    defineEnv
-  ]
+  plugins: [new GasPlugin(), defineEnv]
 };
