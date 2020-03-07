@@ -1,3 +1,4 @@
+<!-- cSpell:ignore shimosyan -->
 # LINE - Pocket Money Book
 
 [![CircleCI](https://circleci.com/gh/shimosyan/line-pocket-money-book/tree/master.svg?style=svg)](https://circleci.com/gh/shimosyan/line-pocket-money-book/tree/master)
@@ -12,7 +13,7 @@ Node.js 及び npm がインストールされているものとします。
 
 以下のコマンドでリポジトリをクローンします。
 
-```shell
+``` shell
 git clone git@github.com:shimosyan/line-pocket-money-book.git <project_name>
 cd <project_name>
 ```
@@ -23,7 +24,7 @@ LINE Developers に登録し、BOT を作成します。トークンはロング
 
 ### 3. 必要なものをインストールする
 
-```shell
+``` shell
 npm i @google/clasp@1.6.0 -g
 npm install
 ```
@@ -45,11 +46,11 @@ A ～ D の 4 列しか使わないので、E 列以降は削除しても構い�
 
 .clasp.json.sample を .clasp.json としてコピーし、Google App Script の script_id を登録します。
 
-ScriptID はスクリプトエディタを開いた URL の [ https://script.google.com/a/macros/ecdesk.jp/d/\<script_id\>/edit ～ ] の部分です。
+ScriptID はスクリプトエディタを開いた URL の `https://script.google.com/a/macros/ecdesk.jp/d/\<script_id\>/edit ～` の部分です。
 
 (デプロイに失敗する場合はスクリプトプロジェクトを作り直してみてください。)
 
-```javascript
+``` json
 .clasp.json
 
 {
@@ -60,7 +61,7 @@ ScriptID はスクリプトエディタを開いた URL の [ https://script.goo
 
 続いて、.env.sample を .env としてコピーし、LINE の BOT のトークンを入力します。
 
-```javascript
+``` bash
 .env
 
 LINE_TOKEN="BOT のトークン"
@@ -70,7 +71,7 @@ LINE_TOKEN="BOT のトークン"
 
 #### 5-1. ビルドする
 
-```shell
+``` shell
 npm run build
 ```
 
@@ -78,7 +79,7 @@ npm run build
 
 以下のコマンドを実行し画面の指示に従い clasp に google アカウントを紐付ける。
 
-```shell
+``` shell
 clasp login
 ```
 
@@ -88,7 +89,7 @@ clasp login
 
 以下のコマンドで Google App Script にデプロイする。
 
-```shell
+``` shell
 clasp push
 ```
 
@@ -100,4 +101,4 @@ Google App Script エディタの「公開」→「ウェブアプリケーシ�
 - 次のユーザーとしてアプリケーションを実行: 自分
 - アプリケーションにアクセスできるユーザー: 全員(匿名ユーザー含む)
 
-ウェブアプリケーションとして公開したら、その URL を LINE の BOT の Webhook 欄に設定してください。
+ウェブアプリケーションとして公開したら、その URL を LINE の BOT の WebHook 欄に設定してください。

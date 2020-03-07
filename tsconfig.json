@@ -5,9 +5,9 @@
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "sourceMap": true,
+    "strict": true,
     "target": "es2019",
-    "module": "es2015",
-    "outDir": "lib"
+    "module": "es2015"
   },
   "exclude": ["node_modules", "test"]
 }

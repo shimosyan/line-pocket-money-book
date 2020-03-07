@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Define } from '../src/define';
+import { SheetValue } from '../src/lib/Sheet';
 
 class Range {
-  public data;
-  private startRow;
-  private startCol;
-  private rangeRow;
-  private rangeCol;
+  public data: any;
+  private startRow: number;
+  private startCol: number;
+  private rangeRow: number;
+  private rangeCol: number;
 
   constructor(input: any, row?: number, col?: number, ranRow?: number, ranCol?: number) {
     this.data = input;
@@ -53,7 +54,7 @@ class Range {
     return response;
   };
 
-  public setValue = (input: string | number): void => {
+  public setValue = (input: SheetValue): void => {
     for (let r = this.startRow; r < this.rangeRow; r++) {
       for (let c = this.startCol; c < this.rangeCol; c++) {
         this.data[r][c] = input;
@@ -61,7 +62,7 @@ class Range {
     }
   };
 
-  public setValues = (input: [[string | number]]): void => {
+  public setValues = (input: SheetValue[][]): void => {
     let countR = 0,
       countC = 0;
     for (let r = this.startRow; r < this.rangeRow; r++) {
@@ -76,10 +77,10 @@ class Range {
   };
 }
 
-class Sheet {
-  public data;
+export class Sheet {
+  public data: any;
 
-  constructor(input) {
+  constructor(input: any) {
     this.data = input;
   }
 
@@ -101,6 +102,15 @@ class Sheet {
     return new Range(this.data, startRow, startCol, rangeRow, rangeCol);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public insertRows = (row: number): void => {
+    return;
+  };
+
+  public getMaxRows = (): number => {
+    return 10000;
+  };
+
   public getLastRow = (): number => {
     return this.data.length;
   };
@@ -115,7 +125,7 @@ class Sheet {
 }
 
 export class SpreadSheet {
-  public sheet1;
+  public sheet1: Sheet;
   constructor() {
     let date = new Date();
     date.setMonth(date.getMonth() - 1);
@@ -131,9 +141,9 @@ export class SpreadSheet {
     this.sheet1 = new Sheet(data);
   }
 
-  public getSheetByName = (name): any => {
+  public getSheetByName = (name: string): any => {
     switch (name) {
-      case Define.spreadsheet_name:
+      case Define.spreadsheetName:
         return this.sheet1;
         break;
     }

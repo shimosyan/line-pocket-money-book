@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --fix src/*.ts && eslint --fix test/*.ts",
-    "test": "jest",
-    "build": "npm run lint && npm run test && rimraf dist && webpack && cpx src/appsscript.json dist",
+    "lint": "eslint --fix 'src/**/*.ts' --no-error-on-unmatched-pattern && eslint --fix 'test/**/*.ts' --no-error-on-unmatched-pattern",
+    "test": "jest --passWithNoTests",
+    "build": "npm run lint && npm run test && rimraf dist && webpack && cpx ./src/appsscript.json ./dist",
     "deploy": "npm run build && clasp push",
     "typedoc": "typedoc --out ./docs/ ./src/"
   },

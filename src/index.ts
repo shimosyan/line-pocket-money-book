@@ -1,79 +1,22 @@
-//cSpell:ignore camelcase, linepmbook, spreadsheetfunc, ikura, sengetsu, torikesi, torikeshi
 import ContentService = GoogleAppsScript.Content.TextOutput;
-// eslint-disable-next-line @typescript-eslint/camelcase
-import URLFetchRequestOptions = GoogleAppsScript.URL_Fetch.URLFetchRequestOptions; //UrlFetchApp.fetchでオプションを指定するときに必要
-import { Define } from './define';
-import { LinePMBookData, LinePMBook } from './linepmbook';
-import { SpreadsheetFunc } from './spreadsheetfunc';
+import Event = GoogleAppsScript.Events.DoPost;
+import { AppManager } from './lib/AppManager';
+import { JobManager } from './lib/JobManager';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-declare let global: any;
-declare let process: any;
+declare const global: any;
 
-// プロジェクト同梱の.env.sampleを.envにコピーして、そこにLINEの情報を入れてビルドしてね
-const LINE_TOKEN: string = process.env.LINE_TOKEN;
+global.doPost = (event: Event): ContentService => {
+  console.log(JSON.parse(event.postData.contents));
 
-global.doPost = (e: any): ContentService => {
-  console.log(JSON.parse(e.postData.contents));
-  let LineObj = new LinePMBookData(JSON.parse(e.postData.contents));
-  if (typeof LineObj.replyToken === 'undefined') {
-    return LinePMBook.responseData();
+  const jobManager = new JobManager();
+  const appManager = new AppManager(event);
+
+  if (!appManager.isCorrect(jobManager)) {
+    return appManager.getResponseData();
   }
 
-  if (LineObj.type != 'message') {
-    return LinePMBook.responseData();
-  }
+  jobManager.jobRun();
 
-  if (!LineObj.filterMessage()) {
-    return LinePMBook.responseData();
-  }
-
-  const SheetObj = new SpreadsheetFunc();
-
-  let response = '';
-
-  if (LineObj.message.match(/^(いくら|幾ら|イクラ|ikura)/i)) {
-    response = `あなたは今月${LinePMBook.formatMoney(
-      SheetObj.getAggregatePrice(LineObj)
-    )}円使いました。`;
-  } else if (LineObj.message.match(/^(先月|せんげつ|sengetsu)/i)) {
-    response = `あなたは先月${LinePMBook.formatMoney(
-      SheetObj.getAggregatePrice(LineObj, 1)
-    )}円使いました。`;
-  } else if (LineObj.message.match(/^(取り消し|とりけし|取消|torikesi|torikeshi)/i)) {
-    LineObj = SheetObj.deleteLastData(LineObj);
-
-    response = `${LineObj.shop}: ${LinePMBook.formatMoney(
-      LineObj.price,
-      0
-    )}円の記録を削除しました。`;
-  } else {
-    LineObj = SheetObj.addData(LineObj);
-    if (!LineObj.error) {
-      response = `${LineObj.shop}: ${LinePMBook.formatMoney(LineObj.price, 0)}円で登録しました。`;
-    } else {
-      response = LineObj.error;
-    }
-  }
-
-  // メッセージを返信
-  const option: URLFetchRequestOptions = {
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-      Authorization: 'Bearer ' + LINE_TOKEN
-    },
-    method: 'post',
-    payload: JSON.stringify({
-      replyToken: LineObj.replyToken,
-      messages: [
-        {
-          type: 'text',
-          text: response
-        }
-      ]
-    })
-  };
-  UrlFetchApp.fetch(Define.line_endpoint, option);
-
-  return LinePMBook.responseData();
+  return appManager.getResponseData();
 };
