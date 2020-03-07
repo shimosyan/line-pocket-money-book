@@ -43,14 +43,6 @@ aliases:
     name: Create .env File..
     command: ./.scripts/build-ci.sh
 
-  - &lint
-    name: Run Lint.
-    command: npm run lint
-
-  - &test
-    name: Run Test.
-    command: npm run test
-
   - &build
     name: Run webpack build.
     command: npm run build
@@ -75,8 +67,6 @@ jobs:
       - save_cache: *save_cache
       - run: *build_permission_setting
       - run: *create_env
-      - run: *lint
-      - run: *test
       - run: *build
   build_deploy:
     <<: *container_config
@@ -89,8 +79,6 @@ jobs:
       - save_cache: *save_cache
       - run: *build_permission_setting
       - run: *create_env
-      - run: *lint
-      - run: *test
       - run: *build
       - run: *deploy_permission_setting
       - run: *deploy
