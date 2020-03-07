@@ -57,7 +57,6 @@ export class AggregateJob implements JobInterface {
   };
 
   public run = (): void => {
-    console.log('hoge');
     let price;
 
     try {
