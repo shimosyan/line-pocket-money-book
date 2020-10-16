@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "lib": ["es2017", "dom"],
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "noUnusedLocals": true,
     "sourceMap": true,
-    "strict": true,
-    "target": "es2019",
-    "module": "es2015"
+    "target": "es2017", // ES2018 以降はスプレッド構文の解析に失敗するので ES2017 としています。
+    "module": "es2015",
+    "moduleResolution": "node",
+    "esModuleInterop": true
   },
-  "exclude": ["node_modules", "test"]
+  "exclude": [
+    "./test/",
+    "./node_modules/"
+  ]
 }

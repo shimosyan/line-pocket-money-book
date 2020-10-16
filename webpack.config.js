@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const GasPlugin = require('gas-webpack-plugin');
 const Webpack = require('webpack');
 require('dotenv').config();
 
-// cSpell:ignore devtool
+// cSpell:word devtool
 
 const defineEnv = new Webpack.DefinePlugin({
   'process.env': {
-    LINE_TOKEN: JSON.stringify(process.env.LINE_TOKEN)
-  }
+    LINE_TOKEN: JSON.stringify(process.env.LINE_TOKEN),
+  },
 });
 
 module.exports = {
@@ -18,18 +17,18 @@ module.exports = {
   devtool: false,
   output: {
     filename: 'bundle.js',
-    path: path.join(__dirname, 'dist')
+    path: path.join(__dirname, 'dist'),
   },
   module: {
     rules: [
       {
         test: /\.ts$/,
-        use: 'ts-loader'
-      }
-    ]
+        use: 'ts-loader',
+      },
+    ],
   },
   resolve: {
-    extensions: ['.ts']
+    extensions: ['.ts'],
   },
-  plugins: [new GasPlugin(), defineEnv]
+  plugins: [new GasPlugin(), defineEnv],
 };

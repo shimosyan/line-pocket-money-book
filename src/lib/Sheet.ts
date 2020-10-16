@@ -35,15 +35,12 @@ export class Sheet {
   };
 
   public deleteLastData = (userId: string): { shop: string; price: number } => {
-    const data: SheetValue[][] = this.sheet
-      .getDataRange()
-      .getValues()
-      .reverse();
+    const data: SheetValue[][] = this.sheet.getDataRange().getValues().reverse();
     let row: number = data.length;
 
     let breakFlg = false;
 
-    data.forEach(line => {
+    data.forEach((line) => {
       if (breakFlg) {
         return;
       }
@@ -63,7 +60,7 @@ export class Sheet {
 
     return {
       shop: shop,
-      price: price
+      price: price,
     };
   };
 }

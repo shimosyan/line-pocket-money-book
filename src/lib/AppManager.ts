@@ -20,7 +20,7 @@ export class AppManager {
     const messageParam: MessageParam = {
       message: this.event.events[0].message.text,
       userId: this.event.events[0].source.userId || '',
-      replyToken: this.event.events[0].replyToken
+      replyToken: this.event.events[0].replyToken,
     };
 
     return jobManager.isExistJob(messageParam);

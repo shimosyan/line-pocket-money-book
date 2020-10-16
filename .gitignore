@@ -10,7 +10,8 @@ node_modules/
 
 # Editor
 .idea/
-.vscode/
+.vscode/*
+!.vscode/launch.json
 
 # Build directory
 dist/

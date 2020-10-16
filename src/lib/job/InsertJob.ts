@@ -34,18 +34,18 @@ export class InsertJob implements JobInterface {
 
   public check = (messageParam: MessageParam): boolean => {
     // 1行目、2行目がともに数字の場合はfalse
-    if (messageParam.message.match(/^[\d,\.]+\r?\n\\?[\d,]+[\r\n]*$/)) {
+    if (messageParam.message.match(/^[\d,]+\r?\n\\?[\d,]+[\r\n]*$/)) {
       return false;
     }
     // 一行目が金額で始まっている
-    if (messageParam.message.match(/^\\?[\d,\.]+(円|ドル)?\s/)) {
+    if (messageParam.message.match(/^\\?[\d,]+(円|ドル)?\s/)) {
       this.userId = messageParam.userId;
       this.replyToken = messageParam.replyToken;
       this.message = messageParam.message;
       return true;
     }
     // 全体が2行で2行目が金額
-    if (messageParam.message.match(/^[^\r\n]+\r?\n\\?[\d,\.]+(円|ドル)?[\r\n]*$/)) {
+    if (messageParam.message.match(/^[^\r\n]+\r?\n\\?[\d,]+(円|ドル)?[\r\n]*$/)) {
       this.userId = messageParam.userId;
       this.replyToken = messageParam.replyToken;
       this.message = messageParam.message;
@@ -80,24 +80,24 @@ export class InsertJob implements JobInterface {
     let shop = '';
     let error = '';
 
-    this.message.split(/\r?\n/).forEach(line => {
+    this.message.split(/\r?\n/).forEach((line) => {
       if (line === '') {
         return;
       }
-      if (price === -1 && line.match(/^\\?[\d,\.]+(円|ドル)?$/)) {
+      if (price === -1 && line.match(/^\\?[\d,]+(円|ドル)?$/)) {
         // ドルが指定されていた場合は為替レートを取得する
-        if (line.match(/^\\?[\d,\.]+ドル?$/)) {
+        if (line.match(/^\\?[\d,]+ドル?$/)) {
           const rate = Format.getUSDRate();
           if (rate === 0) {
             error = '為替レートの取得に失敗しました。';
           }
           // ドルを日本円に直したものを返す
-          price = Math.round(Number(line.replace(/[^\.\d]/g, '')) * rate);
+          price = Math.round(Number(line.replace(/[^\d]/g, '')) * rate);
         }
 
-        price = Number(line.replace(/[^\.\d]/g, ''));
+        price = Number(line.replace(/[^\d]/g, ''));
       }
-      if (shop === '' && !line.match(/^\\?[\d,\.]+(円|ドル)?$/)) {
+      if (shop === '' && !line.match(/^\\?[\d,]+(円|ドル)?$/)) {
         shop = line;
       }
     });
@@ -108,7 +108,7 @@ export class InsertJob implements JobInterface {
 
     return {
       shop: shop,
-      price: price
+      price: price,
     };
   };
 }

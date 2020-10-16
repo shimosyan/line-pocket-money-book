@@ -4,23 +4,7 @@ import { Sheet } from '../Sheet';
 import { Line } from '../Line';
 import * as Format from '../Format';
 
-import * as moment from 'moment';
-// eslint-disable-next-line @typescript-eslint/no-namespace
-declare namespace Moment {
-  function moment(
-    inp?: moment.MomentInput,
-    format?: moment.MomentFormatSpecification,
-    strict?: boolean
-  ): moment.Moment;
-  function moment(
-    inp?: moment.MomentInput,
-    format?: moment.MomentFormatSpecification,
-    language?: string,
-    strict?: boolean
-  ): moment.Moment;
-}
-
-// cSpell:ignore : torikesi, torikeshi
+// cSpell:word : torikesi, torikeshi
 
 type ShopData = {
   shop: string;
