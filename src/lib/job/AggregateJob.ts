@@ -37,7 +37,7 @@ export class AggregateJob implements JobInterface {
     if (messageParam.message.match(/^(いくら|幾ら|イクラ|ikura)/i)) {
       this.offsetMonth = {
         num: 0,
-        text: '今月'
+        text: '今月',
       };
       this.userId = messageParam.userId;
       this.replyToken = messageParam.replyToken;
@@ -47,7 +47,7 @@ export class AggregateJob implements JobInterface {
     if (messageParam.message.match(/^(先月|せんげつ|sengetsu)/i)) {
       this.offsetMonth = {
         num: -1,
-        text: '先月'
+        text: '先月',
       };
       this.userId = messageParam.userId;
       this.replyToken = messageParam.replyToken;
@@ -79,11 +79,11 @@ export class AggregateJob implements JobInterface {
     return Number(
       data
         .filter(
-          row =>
+          (row) =>
             row[1] == this.userId &&
             date.format('YYYY-MM') == Moment.moment(String(row[0])).format('YYYY-MM')
         )
-        .map(row => row[3])
+        .map((row) => row[3])
         .reduce((total, row) => Number(total) + Number(row))
     );
   };

@@ -1,0 +1,12 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: '21:00'
+  open-pull-requests-limit: 10
+  ignore:
+    - dependency-name: "webpack"
+      # Webpack の場合、バージョン 5 のすべての更新を無視する
+      versions: ["5.x"]

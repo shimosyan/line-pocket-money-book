@@ -1,5 +1,4 @@
-//cSpell:ignore camelcase, USDJPY
-// eslint-disable-next-line @typescript-eslint/camelcase
+//cSpell:word  USDJPY
 import URLFetchResponse = GoogleAppsScript.URL_Fetch.HTTPResponse;
 import { Define } from '../define';
 
@@ -50,7 +49,7 @@ export function formatMoney(n: number | string, c = 0, d = '.', t = ','): string
 export function getUSDRate(): number {
   const response: URLFetchResponse = UrlFetchApp.fetch(Define.usdRateApiEndpoint);
   const data: RateObj = JSON.parse(response.getContentText());
-  const usdjpy = data.quotes.filter(line => {
+  const usdjpy = data.quotes.filter((line) => {
     return line.currencyPairCode === 'USDJPY';
   });
 

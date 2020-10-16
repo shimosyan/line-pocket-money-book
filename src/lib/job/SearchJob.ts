@@ -68,7 +68,7 @@ export class SearchJob implements JobInterface {
       return;
     }
 
-    const shopDataText = shopData.reverse().map(item => {
+    const shopDataText = shopData.reverse().map((item) => {
       const date = Moment.moment(item.date).format('YYYY/MM/DD');
       return `${date} : ${item.shop} : ${Format.formatMoney(item.price, 0)}円`;
     });
@@ -87,18 +87,18 @@ export class SearchJob implements JobInterface {
     const data = this.sheet.getSheetData();
 
     return data
-      .filter(item => {
+      .filter((item) => {
         return (
           item[1] == this.userId &&
           Moment.moment(item[0] as Date).isAfter(date) &&
           String(item[2]).match(regExp)
         );
       })
-      .map(item => {
+      .map((item) => {
         return {
           date: item[0],
           shop: item[2],
-          price: item[3]
+          price: item[3],
         } as ShopData;
       });
   };

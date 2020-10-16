@@ -1,5 +1,3 @@
-// cSpell:ignore camelcase
-// eslint-disable-next-line @typescript-eslint/camelcase
 import URLFetchRequestOptions = GoogleAppsScript.URL_Fetch.URLFetchRequestOptions;
 import { Define } from '../define';
 
@@ -11,7 +9,7 @@ export class Line {
     const option: URLFetchRequestOptions = {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
-        Authorization: 'Bearer ' + this.apiToken
+        Authorization: 'Bearer ' + this.apiToken,
       },
       method: 'post',
       payload: JSON.stringify({
@@ -19,10 +17,10 @@ export class Line {
         messages: [
           {
             type: 'text',
-            text: message
-          }
-        ]
-      })
+            text: message,
+          },
+        ],
+      }),
     };
 
     UrlFetchApp.fetch(this.endpoint, option);

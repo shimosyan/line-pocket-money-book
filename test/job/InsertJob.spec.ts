@@ -15,7 +15,7 @@ describe('InsertJob', () => {
 
       const result: ShopData = {
         shop: '昼食代',
-        price: 1000
+        price: 1000,
       };
 
       expect(insertJob['getShopData']()).toEqual(result);
