@@ -6,6 +6,10 @@ updates:
     interval: weekly
     time: '21:00'
   open-pull-requests-limit: 10
+  automerged_updates:
+    - match:
+        dependency_type: all
+        update_type: all
   ignore:
     - dependency-name: "webpack"
       # Webpack の場合、バージョン 5 のすべての更新を無視する
