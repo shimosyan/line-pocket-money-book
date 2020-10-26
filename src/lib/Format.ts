@@ -1,4 +1,3 @@
-//cSpell:word  USDJPY
 import URLFetchResponse = GoogleAppsScript.URL_Fetch.HTTPResponse;
 import { Define } from '../define';
 
