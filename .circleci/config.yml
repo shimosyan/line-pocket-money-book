@@ -5,7 +5,7 @@ version: 2
 aliases:
   - &container_config
     docker:
-      - image: circleci/node:10.13.0
+      - image: circleci/node:12.18.0
     working_directory: /home/circleci/project
 
   - &node_modules_cache_params
